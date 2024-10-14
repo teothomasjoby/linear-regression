@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 class LinearRegression:
 
@@ -32,18 +33,20 @@ class LinearRegression:
             for k in range(1, n+1):
                 self.W[k] -= (learning_rate) * dw[k]
 
+    def plot_predictions(self, predictions, y):
+        plt.scatter(range(len(y)), y, color='blue', label='Actual Values')
+        plt.scatter(range(len(predictions)), predictions, color='red', label='Predicted Values', marker='x')
+        plt.xlabel('Data Points')
+        plt.ylabel('Target Values')
+        plt.title('Model Predictions vs. Actual Values')
+        plt.legend()
+        plt.show()
 
 X = np.array([
     [1, 2, 3, 4, 5, 6],
     [2, 3, 4, 5, 6, 7],
     [3, 4, 5, 6, 7, 8],
     [4, 5, 6, 7, 8, 9]])
-
-# X = np.array([
-#     [1, 2, 3, 4],
-#     [2, 3, 4, 5],
-#     [3, 4, 5, 6],
-#     [4, 5, 6, 7]])
 
 y = np.array([10, 12, 14, 16])
 
@@ -52,3 +55,6 @@ model.fit(X, y, epochs=1000, learning_rate=0.001)
 
 predictions = model.predict(X)
 print("Predictions:", predictions)
+
+model.plot_predictions(predictions, y)
+

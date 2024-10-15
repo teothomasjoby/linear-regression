@@ -23,13 +23,18 @@ class LogisticRegression():
             log_loss = -1 * np.mean(y*np.log10(y_pred) +
                                     (1-y)*np.log10(1-y_pred))
             print("log_loss = ", log_loss)
-            # find partial derivatives of each coefficient
-            dm =  X * (y-self.sigmoid(np.dot([self.m],X)+self.c))
-            dc = y-self.sigmoid(np.dot(self.m,X)+self.c)
-            # # update m and c in direction of negative of derivative
-            # self.m -= self.learning_rate * dm
-            # self.c -= self.learning_rate * dc
-            # print("m = ", self.m, "c = ", self.c)
+            for j in range(n):
+                # find partial derivatives of each coefficient
+                dm =  X[j] * (y[j]-self.sigmoid(np.dot([self.m],X[j])+self.c))
+                dc = y[j] - self.sigmoid(np.dot(self.m,X[j])+self.c)
+                self.m -= self.learning_rate*dm[0]
+                self.c -= self.learning_rate*dc
+                print("dm = ", dm, "dc = ", dc)
+                print("m = ", self.m, "c = ", self.c)
+                # # update m and c in direction of negative of derivative
+                # self.m -= self.learning_rate * dm
+                # self.c -= self.learning_rate * dc
+                # print("m = ", self.m, "c = ", self.c)
 
 
 train_X = np.array([1, 2, 3, 4, 5, 6, 7, 8])

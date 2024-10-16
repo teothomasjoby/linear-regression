@@ -23,25 +23,26 @@ class LogisticRegression():
             log_loss = -1 * np.mean(y*np.log10(y_pred) +
                                     (1-y)*np.log10(1-y_pred))
             print("log_loss = ", log_loss)
-            # find partial derivatives of each coefficient
-            dm =  X * (y-self.sigmoid(np.dot([self.m],X)+self.c))
-            dc = y-self.sigmoid(np.dot(self.m,X)+self.c)
-            # # update m and c in direction of negative of derivative
-            # self.m -= self.learning_rate * dm
-            # self.c -= self.learning_rate * dc
-            # print("m = ", self.m, "c = ", self.c)
+            
+            for j in range(n):
+                # find partial derivatives of each coefficient
+                dm =  (X[j] * (y[j]-self.sigmoid(np.dot([self.m],X[j])+self.c)))[0]
+                dc = y[j]-self.sigmoid(np.dot(self.m,X[j])+self.c)
+                # update m and c in direction of negative of derivative
+                self.m += self.learning_rate * dm
+                self.c += self.learning_rate * dc
 
 
-train_X = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-train_y = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+train_X = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+train_y = np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1])
 
-model = LogisticRegression(learning_rate=.001, epochs=100)
+model = LogisticRegression(learning_rate=.001, epochs=1000)
 model.train(train_X, train_y)
-print("prediction = ", model.predict(4))
+print("prediction = ", model.predict(train_X))
 
 # plotting the model
 plt.scatter(train_X, train_y)
-plt.plot(train_X, model.m * train_X + model.c)
+plt.plot(train_X, model.predict(train_X))
 plt.xlabel('train_x')
 plt.ylabel('train_y')
 plt.show()
